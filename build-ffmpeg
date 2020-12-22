@@ -378,6 +378,15 @@ if build "vid_stab"; then
 fi
 CONFIGURE_OPTIONS+=("--enable-libvidstab")
 
+if build "python"; then
+	download "https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz" "Python-3.9.1.tgz"
+	execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static
+	execute make -j $MJOBS
+	execute make install
+
+	build_done "lv2"
+fi
+
 if build "lv2"; then
 	download "https://lv2plug.in/spec/lv2-1.18.0.tar.bz2" "lv2-1.18.0.tar.bz2"
 	execute ./waf configure --prefix="${WORKSPACE}" --lv2-user
@@ -388,7 +397,7 @@ if build "lv2"; then
 fi
 
 if build "serd"; then
-	download "https://download.drobilla.net/serd-0.30.6.tar.bz2" "serd-0.30.6.tar.bz2"
+	download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
 	execute ./waf configure --prefix="${WORKSPACE}"
 	execute ./waf
 	execute ./waf install
@@ -406,7 +415,7 @@ if build "pcre"; then
 fi
 
 if build "sord"; then
-	download "https://download.drobilla.net/sord-0.16.6.tar.bz2" "sord-0.16.6.tar.bz2"
+	download "https://gitlab.com/drobilla/sord/-/archive/v0.16.6/sord-v0.16.6.tar.gz" "sord-v0.16.6.tar.gz"
 	execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS}
 	execute ./waf CFLAGS=${CFLAGS}
 	execute ./waf install
@@ -415,7 +424,7 @@ if build "sord"; then
 fi
 
 if build "sratom"; then
-	download "https://download.drobilla.net/sratom-0.6.0.tar.bz2" "sratom-0.6.0.tar.bz2"
+	download "https://gitlab.com/lv2/sratom/-/archive/v0.6.6/sratom-v0.6.6.tar.gz" "sratom-v0.6.6.tar.gz"
 	execute ./waf configure --prefix="${WORKSPACE}"
 	execute ./waf
 	execute ./waf install
@@ -424,7 +433,7 @@ if build "sratom"; then
 fi
 
 if build "lilv"; then
-	download "https://download.drobilla.net/lilv-0.24.10.tar.bz2" "lilv-0.24.10.tar.bz2"
+	download "https://gitlab.com/lv2/lilv/-/archive/v0.24.10/lilv-v0.24.10.tar.gz" "lilv-v0.24.10.tar.gz"
 	execute ./waf configure --prefix="${WORKSPACE}"
 	execute ./waf
 	execute ./waf install
