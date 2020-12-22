@@ -378,6 +378,61 @@ if build "vid_stab"; then
 fi
 CONFIGURE_OPTIONS+=("--enable-libvidstab")
 
+if build "lv2"; then
+	download "https://lv2plug.in/spec/lv2-1.18.0.tar.bz2" "lv2-1.18.0.tar.bz2"
+	execute ./waf configure --prefix="${WORKSPACE}" --lv2-user
+	execute ./waf
+	execute ./waf install
+
+	build_done "lv2"
+fi
+
+if build "serd"; then
+	download "https://download.drobilla.net/serd-0.30.6.tar.bz2" "serd-0.30.6.tar.bz2"
+	execute ./waf configure --prefix="${WORKSPACE}"
+	execute ./waf
+	execute ./waf install
+
+	build_done "serd"
+fi
+
+if build "pcre"; then
+	download "https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz" "pcre-8.44.tar.gz"
+	execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static
+	execute make -j $MJOBS
+	execute make install
+
+	build_done "pcre"
+fi
+
+if build "sord"; then
+	download "https://download.drobilla.net/sord-0.16.6.tar.bz2" "sord-0.16.6.tar.bz2"
+	execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS}
+	execute ./waf CFLAGS=${CFLAGS}
+	execute ./waf install
+
+	build_done "sord"
+fi
+
+if build "sratom"; then
+	download "https://download.drobilla.net/sratom-0.6.0.tar.bz2" "sratom-0.6.0.tar.bz2"
+	execute ./waf configure --prefix="${WORKSPACE}"
+	execute ./waf
+	execute ./waf install
+
+	build_done "sratom"
+fi
+
+if build "lilv"; then
+	download "https://download.drobilla.net/lilv-0.24.10.tar.bz2" "lilv-0.24.10.tar.bz2"
+	execute ./waf configure --prefix="${WORKSPACE}"
+	execute ./waf
+	execute ./waf install
+
+	build_done "lilv"
+fi
+
+CONFIGURE_OPTIONS+=("--enable-lv2")
 
 if build "av1"; then
 	download "https://aomedia.googlesource.com/aom/+archive/b52ee6d44adaef8a08f6984390de050d64df9faa.tar.gz" "av1.tar.gz" "av1"
@@ -390,7 +445,6 @@ if build "av1"; then
 	build_done "av1"
 fi
 CONFIGURE_OPTIONS+=("--enable-libaom")
-
 
 ##
 ## audio library
