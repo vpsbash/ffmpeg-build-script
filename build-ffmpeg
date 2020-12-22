@@ -379,8 +379,8 @@ fi
 CONFIGURE_OPTIONS+=("--enable-libvidstab")
 
 if build "python"; then
-	download "https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz" "Python-3.9.1.tgz"
-	execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static
+	download "https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz" "Python-3.7.9.tgz"
+	execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static --with-zlib
 	execute make -j $MJOBS
 	execute make install
 
