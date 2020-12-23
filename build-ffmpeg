@@ -393,11 +393,14 @@ if command_exists "python"; then
     build_done "lv2"
   fi
 
- if build "serd"; then
-    download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
+  if build "waflib"; then
     download "https://gitlab.com/drobilla/autowaf/-/archive/cc37724b9bfa889baebd8cb10f38b8c7cab83e37/autowaf-cc37724b9bfa889baebd8cb10f38b8c7cab83e37.tar.gz" "autowaf.tar.gz"
+    build_done "waflib"
+  fi
+
+  if build "serd"; then
+    download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/serd-v0.30.6/waflib/"
-    cd "${PACKAGES}/serd-v0.30.6"
     execute ./waf configure --prefix="${WORKSPACE}"
     execute ./waf
     execute ./waf install
@@ -415,6 +418,7 @@ if command_exists "python"; then
 
   if build "sord"; then
     download "https://gitlab.com/drobilla/sord/-/archive/v0.16.6/sord-v0.16.6.tar.gz" "sord-v0.16.6.tar.gz"
+    execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/sord-v0.16.6/waflib/"
     execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS}
     execute ./waf CFLAGS=${CFLAGS}
     execute ./waf install
@@ -424,6 +428,7 @@ if command_exists "python"; then
 
   if build "sratom"; then
     download "https://gitlab.com/lv2/sratom/-/archive/v0.6.6/sratom-v0.6.6.tar.gz" "sratom-v0.6.6.tar.gz"
+    execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/sratom-v0.6.6/waflib/"
     execute ./waf configure --prefix="${WORKSPACE}"
     execute ./waf
     execute ./waf install
@@ -433,6 +438,7 @@ if command_exists "python"; then
 
   if build "lilv"; then
     download "https://gitlab.com/lv2/lilv/-/archive/v0.24.10/lilv-v0.24.10.tar.gz" "lilv-v0.24.10.tar.gz"
+    execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/lilv-v0.24.10/waflib/"
     execute ./waf configure --prefix="${WORKSPACE}"
     execute ./waf
     execute ./waf install
