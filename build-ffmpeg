@@ -318,7 +318,7 @@ if command_exists "python"; then
     execute ./waf configure --prefix="${WORKSPACE}"
     execute ./waf
     execute ./waf install
-		CFLAGS+="-I$WORKSPACE/include/lilv-0"
+		CFLAGS+=" -I$WORKSPACE/include/lilv-0"
     build_done "lilv"
   fi
 
@@ -354,7 +354,7 @@ if build "openssl"; then
 	download "https://www.openssl.org/source/openssl-1.1.1h.tar.gz"
 	execute ./config --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib
 	execute make -j $MJOBS
-	execute make install
+	execute make install_sw
 
 	build_done "openssl"
 fi
