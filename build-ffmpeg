@@ -240,6 +240,10 @@ if ! command_exists "curl"; then
 	exit 1
 fi
 
+if ! command_exists "python"; then
+	echo "Python command not found. Lv2 filter will not be available.";
+fi
+
 
 ##
 ## build tools
@@ -271,7 +275,7 @@ fi
 
 if build "zlib"; then
 	download "https://www.zlib.net/zlib-1.2.11.tar.gz"
-	execute ./configure --static  --prefix="${WORKSPACE}"
+	execute ./configure --static --prefix="${WORKSPACE}"
 	execute make -j $MJOBS
 	execute make install
 	build_done "zlib"
@@ -378,70 +382,64 @@ if build "vid_stab"; then
 fi
 CONFIGURE_OPTIONS+=("--enable-libvidstab")
 
-if build "python"; then
-	download "https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz" "Python-3.7.9.tgz"
-	execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static --with-zlib
-	execute make -j $MJOBS
-	execute make install
+if command_exists "python"; then
 
-	build_done "lv2"
+  if build "lv2"; then
+    download "https://lv2plug.in/spec/lv2-1.18.0.tar.bz2" "lv2-1.18.0.tar.bz2"
+    execute ./waf configure --prefix="${WORKSPACE}" --lv2-user
+    execute ./waf
+    execute ./waf install
+
+    build_done "lv2"
+  fi
+
+  if build "serd"; then
+    download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
+    execute ./waf configure --prefix="${WORKSPACE}"
+    execute ./waf
+    execute ./waf install
+
+    build_done "serd"
+  fi
+
+  if build "pcre"; then
+    download "https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz" "pcre-8.44.tar.gz"
+    execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static
+    execute make -j $MJOBS
+    execute make install
+
+    build_done "pcre"
+  fi
+
+  if build "sord"; then
+    download "https://gitlab.com/drobilla/sord/-/archive/v0.16.6/sord-v0.16.6.tar.gz" "sord-v0.16.6.tar.gz"
+    execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS}
+    execute ./waf CFLAGS=${CFLAGS}
+    execute ./waf install
+
+    build_done "sord"
+  fi
+
+  if build "sratom"; then
+    download "https://gitlab.com/lv2/sratom/-/archive/v0.6.6/sratom-v0.6.6.tar.gz" "sratom-v0.6.6.tar.gz"
+    execute ./waf configure --prefix="${WORKSPACE}"
+    execute ./waf
+    execute ./waf install
+
+    build_done "sratom"
+  fi
+
+  if build "lilv"; then
+    download "https://gitlab.com/lv2/lilv/-/archive/v0.24.10/lilv-v0.24.10.tar.gz" "lilv-v0.24.10.tar.gz"
+    execute ./waf configure --prefix="${WORKSPACE}"
+    execute ./waf
+    execute ./waf install
+
+    build_done "lilv"
+  fi
+
+  CONFIGURE_OPTIONS+=("--enable-lv2")
 fi
-
-if build "lv2"; then
-	download "https://lv2plug.in/spec/lv2-1.18.0.tar.bz2" "lv2-1.18.0.tar.bz2"
-	execute ./waf configure --prefix="${WORKSPACE}" --lv2-user
-	execute ./waf
-	execute ./waf install
-
-	build_done "lv2"
-fi
-
-if build "serd"; then
-	download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
-	execute ./waf configure --prefix="${WORKSPACE}"
-	execute ./waf
-	execute ./waf install
-
-	build_done "serd"
-fi
-
-if build "pcre"; then
-	download "https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz" "pcre-8.44.tar.gz"
-	execute ./configure --prefix="${WORKSPACE}" --disable-shared --enable-static
-	execute make -j $MJOBS
-	execute make install
-
-	build_done "pcre"
-fi
-
-if build "sord"; then
-	download "https://gitlab.com/drobilla/sord/-/archive/v0.16.6/sord-v0.16.6.tar.gz" "sord-v0.16.6.tar.gz"
-	execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS}
-	execute ./waf CFLAGS=${CFLAGS}
-	execute ./waf install
-
-	build_done "sord"
-fi
-
-if build "sratom"; then
-	download "https://gitlab.com/lv2/sratom/-/archive/v0.6.6/sratom-v0.6.6.tar.gz" "sratom-v0.6.6.tar.gz"
-	execute ./waf configure --prefix="${WORKSPACE}"
-	execute ./waf
-	execute ./waf install
-
-	build_done "sratom"
-fi
-
-if build "lilv"; then
-	download "https://gitlab.com/lv2/lilv/-/archive/v0.24.10/lilv-v0.24.10.tar.gz" "lilv-v0.24.10.tar.gz"
-	execute ./waf configure --prefix="${WORKSPACE}"
-	execute ./waf
-	execute ./waf install
-
-	build_done "lilv"
-fi
-
-CONFIGURE_OPTIONS+=("--enable-lv2")
 
 if build "av1"; then
 	download "https://aomedia.googlesource.com/aom/+archive/b52ee6d44adaef8a08f6984390de050d64df9faa.tar.gz" "av1.tar.gz" "av1"
