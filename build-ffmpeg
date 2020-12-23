@@ -393,12 +393,14 @@ if command_exists "python"; then
     build_done "lv2"
   fi
 
-  if build "serd"; then
+ if build "serd"; then
     download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
+    download "https://gitlab.com/drobilla/autowaf/-/archive/cc37724b9bfa889baebd8cb10f38b8c7cab83e37/autowaf-cc37724b9bfa889baebd8cb10f38b8c7cab83e37.tar.gz" "autowaf.tar.gz"
+    execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/serd-v0.30.6/waflib/"
+    cd "${PACKAGES}/serd-v0.30.6"
     execute ./waf configure --prefix="${WORKSPACE}"
     execute ./waf
     execute ./waf install
-
     build_done "serd"
   fi
 
