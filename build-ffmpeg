@@ -262,7 +262,7 @@ if command_exists "python"; then
 
   if build "lv2"; then
     download "https://lv2plug.in/spec/lv2-1.18.0.tar.bz2" "lv2-1.18.0.tar.bz2"
-    execute ./waf configure --prefix="${WORKSPACE}" --lv2-user
+    execute ./waf configure --prefix="${WORKSPACE}" --lv2-user --static
     execute ./waf
     execute ./waf install
 
@@ -277,7 +277,7 @@ if command_exists "python"; then
   if build "serd"; then
     download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/serd-v0.30.6/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}"
+    execute ./waf configure --prefix="${WORKSPACE}" --static
     execute ./waf
     execute ./waf install
     build_done "serd"
@@ -295,7 +295,7 @@ if command_exists "python"; then
   if build "sord"; then
     download "https://gitlab.com/drobilla/sord/-/archive/v0.16.6/sord-v0.16.6.tar.gz" "sord-v0.16.6.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/sord-v0.16.6/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS}
+    execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS} --static
     execute ./waf CFLAGS=${CFLAGS}
     execute ./waf install
 
@@ -305,7 +305,7 @@ if command_exists "python"; then
   if build "sratom"; then
     download "https://gitlab.com/lv2/sratom/-/archive/v0.6.6/sratom-v0.6.6.tar.gz" "sratom-v0.6.6.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/sratom-v0.6.6/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}"
+    execute ./waf configure --prefix="${WORKSPACE}" --static
     execute ./waf
     execute ./waf install
 
@@ -315,7 +315,7 @@ if command_exists "python"; then
   if build "lilv"; then
     download "https://gitlab.com/lv2/lilv/-/archive/v0.24.10/lilv-v0.24.10.tar.gz" "lilv-v0.24.10.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/lilv-v0.24.10/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}"
+    execute ./waf configure --prefix="${WORKSPACE}" --static
     execute ./waf
     execute ./waf install
 		CFLAGS+=" -I$WORKSPACE/include/lilv-0"
