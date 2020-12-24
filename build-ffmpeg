@@ -277,7 +277,7 @@ if command_exists "python"; then
   if build "serd"; then
     download "https://gitlab.com/drobilla/serd/-/archive/v0.30.6/serd-v0.30.6.tar.gz" "serd-v0.30.6.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/serd-v0.30.6/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}" --static --no-shared
+    execute ./waf configure --prefix="${WORKSPACE}" --static --no-shared --no-posix
     execute ./waf
     execute ./waf install
     build_done "serd"
@@ -295,7 +295,7 @@ if command_exists "python"; then
   if build "sord"; then
     download "https://gitlab.com/drobilla/sord/-/archive/v0.16.6/sord-v0.16.6.tar.gz" "sord-v0.16.6.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/sord-v0.16.6/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS} --static --no-shared
+    execute ./waf configure --prefix="${WORKSPACE}" CFLAGS=${CFLAGS} --static --no-shared --no-utils
     execute ./waf CFLAGS=${CFLAGS}
     execute ./waf install
 
@@ -315,7 +315,7 @@ if command_exists "python"; then
   if build "lilv"; then
     download "https://gitlab.com/lv2/lilv/-/archive/v0.24.10/lilv-v0.24.10.tar.gz" "lilv-v0.24.10.tar.gz"
     execute cp -r ${PACKAGES}/autowaf/* "${PACKAGES}/lilv-v0.24.10/waflib/"
-    execute ./waf configure --prefix="${WORKSPACE}" --static --no-sharedcd
+    execute ./waf configure --prefix="${WORKSPACE}" --static --no-shared --no-utils
     execute ./waf
     execute ./waf install
 		CFLAGS+=" -I$WORKSPACE/include/lilv-0"
