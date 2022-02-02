@@ -1,5 +1,5 @@
 test
-apt install git curl gcc -y
+apt install git curl gcc libssl-dev -y
 wget  https://sh.rustup.rs
 sh index.html -y
 rm -rf index.html
