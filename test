@@ -1,3 +1,7 @@
 test
-apt install git curl gcc cargo -y
+apt install git curl gcc -y
+wget  https://sh.rustup.rs
+sh index.html -y
+rm -rf index.html
+source $HOME/.cargo/env
 ./build-ffmpeg --build--enable-gpl-and-non-free
