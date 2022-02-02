@@ -1,0 +1,3 @@
+test
+apt install git curl gcc cargo -y
+./build-ffmpeg --build--enable-gpl-and-non-free
